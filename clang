@@ -1,1 +1,1 @@
-cmake -S llvm -B build -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_OCAMLDOC=OFF -DLLVM_USE_LINKER=mold -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb;flang" -DLLVM_ENABLE_RUNTIMES=all
+cmake -S llvm -B build -DCMAKE_BUILD_TYPE=Release -DLLVM_USE_LINKER=mold -DLLVM_ENABLE_BINDINGS=false -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" -DLLVM_ENABLE_RUNTIMES="libc;compiler-rt"
