@@ -1,0 +1,9 @@
+FLAGS = -DCMAKE_BUILD_TYPE=Release -DLLVM_USE_LINKER=mold -DLLVM_ENABLE_BINDINGS=false -DLLVM_ENABLE_RUNTIMES="libc;compiler-rt"
+CMD = cmake -S llvm -B
+
+.PHONY: all arm
+all:
+	$(CMD) build $(FLAGS) -DLLVM_TARGET_TO_BUILD=host -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" 
+
+arm:
+	$(CMD) build_arm $(FLAGS) -DLLVM_TARGET_TO_BUILD=ARM -DCMAKE_C_COMPILER_TARGET=armv6m-none-eabi -DLLVM_ENABLE_PROJECTS="clang"
