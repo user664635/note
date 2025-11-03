@@ -1,0 +1,26 @@
+CompileFlags:
+  Add: [-Wall, -Wextra]
+
+---
+If:
+  PathMatch: .*\.c
+CompileFlags:
+  Add: [-std=gnu2y]
+
+---
+If:
+  PathMatch: .*\.h
+CompileFlags:
+  Add: [-xc, -std=gnu2y]
+
+---
+If:
+  PathMatch: .*\.cpp
+CompileFlags:
+  Add: [-std=gnu++2c]
+
+---
+If:
+  PathMatch: .*\.hpp
+CompileFlags:
+  Add: [-xc++, -std=gnu++2c]
