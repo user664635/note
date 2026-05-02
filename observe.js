@@ -29,14 +29,31 @@ const monitor = new Proxy(obj, {
   },
 });
 
+function checkDiff(obj0, obj1, key){
+  let v0 = obj0 ? obj0[key] : undefined;
+  let v1 = obj1[key];
+  if (!v1 || v1 === v0) return false;
+  switch(typeof v1){
+    case 'string': 
+      return `${key} : ${v0} -> ${v1}`;
+    case 'object':
+      let buf = {}; buf[key] = [];
+      for (let k of Object.keys(v1)){
+        let tmp = checkDiff(v0, v1, k);
+        tmp && buf[key].push(tmp);
+      }
+      return buf[key].length ? buf : false;
+    default:
+      return `${key} : ${v1} (${v1 - v0})`;
+  }
+}
 let ss0 = obj;
 setInterval(() => {
   const ss1 = obj;
-  Object.keys(ss1).forEach(key => {
-    v0 = ss0[key];
-    v1 = ss1[key];
-    typeof v0 == 'number' && typeof v1 == 'number' && v1 - v0 &&
-    console.log(`${key} : ${v1} (${v1 - v0})`);
-  });
+  if (ss1 == ss0) return;
+  for(let key of Object.keys(ss1)){
+    let tmp = checkDiff(ss0, ss1, key);
+    tmp && console.log(tmp);
+  }
   ss0 = ss1;
-}, 100);
+}, 100)
