@@ -35,16 +35,16 @@ function checkDiff(obj0, obj1, key){
   if (!v1 || v1 === v0) return false;
   switch(typeof v1){
     case 'string': 
-      return `${key} : ${v0} -> ${v1}`;
+      return `${v0} -> ${v1}`;
     case 'object':
-      let buf = {}; buf[key] = [];
+      let buf = {};
       for (let k of Object.keys(v1)){
         let tmp = checkDiff(v0, v1, k);
-        tmp && buf[key].push(tmp);
+        tmp && (buf[k] = tmp);
       }
-      return buf[key].length ? buf : false;
+      return Object.keys(buf).length ? buf : false;
     default:
-      return `${key} : ${v1} (${v1 - v0})`;
+      return `${v1} (${v1 - v0})`;
   }
 }
 let ss0 = obj;
@@ -53,7 +53,7 @@ setInterval(() => {
   if (ss1 == ss0) return;
   for(let key of Object.keys(ss1)){
     let tmp = checkDiff(ss0, ss1, key);
-    tmp && console.log(tmp);
+    tmp && console.log(key, ':', tmp);
   }
   ss0 = ss1;
 }, 100)
